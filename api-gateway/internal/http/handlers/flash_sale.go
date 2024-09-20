@@ -29,19 +29,12 @@ func (h *Handler) CreateFlashSale(c *gin.Context) {
 		return
 	}
 
-	input, err := protojson.Marshal(&req)
+	_,err := h.Clients.FlashSale.CreateFlashSale(context.Background(), &req)
 	if err != nil {
-		h.Logger.ERROR.Println("Failed to marshal request:", err)
-		c.JSON(500, "Internal server error: "+err.Error())
+		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	err = h.Producer.ProduceMessages("create-flash", input)
-	if err != nil {
-		h.Logger.ERROR.Println("Failed to produce Kafka message:", err)
-		c.JSON(500, "Internal server error: "+err.Error())
-		return
-	}
 	c.JSON(200, gin.H{"message": "Flash sale created successfully"})
 
 }
@@ -170,7 +163,7 @@ func (h *Handler) ListFlashSales(c *gin.Context) {
 // @Success 200 {string} string "message":"Flash Sale deleted successfully"
 // @Failure 400 {string} string "Invalid request"
 // @Failure 500 {string} string "Internal server error"
-// @Router /v1/FlashSale/delete/{id} [delete]
+// @Router /v1/flashSale/delete/{id} [delete]
 func (h *Handler) DeleteFlashSale(c *gin.Context) {
 	id := c.Param("id")
 
@@ -252,83 +245,25 @@ func (h *Handler) RemoveProductFromFlashSale(c *gin.Context) {
 // @Failure       500  {string}  string "Internal server error"
 // @Router        /v1/flashSale/{id}/cancel [post]
 func (h *Handler) CancelFlashSale(c *gin.Context) {
+    req := &pb.GetById{}
+    
+    // Extract the ID from the URL path
+    id := c.Param("id")
+    req.Id = id
 
-	req := &pb.GetById{}
-	id := c.Param("id")
+    // Call the gRPC service to cancel the flash sale
+    _, err := h.Clients.FlashSale.CancelFlashSale(context.Background(), req)
+    if err != nil {
+        h.Logger.ERROR.Println("Failed to cancel flash sale:", err)
+        c.JSON(500, gin.H{"error": "Internal server error: " + err.Error()})
+        return
+    }
 
-	req.Id = id
-
-	if err := c.ShouldBindJSON(&req); err != nil {
-		h.Logger.ERROR.Println("Failed to bind request:", err)
-		c.JSON(400, gin.H{"message": "Invalid request: " + err.Error()})
-		return
-	}
-
-	_, err := h.Clients.FlashSale.CancelFlashSale(context.Background(), req)
-	if err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(200, gin.H{"message": "Flash sale cancelled successfully"})
-
+    c.JSON(200, gin.H{"message": "Flash sale cancelled successfully"})
 }
 
-// @Summary       Get Nearby Flash Sales
-// @Description   Retrieve flash sales near a specific location
-// @Tags          FlashSale
-// @Accept        json
-// @Produce       json
-// @Security      BearerAuth
-// @Param         Latitude   query float64 true "Latitude of the location"
-// @Param         Longitude  query float64 true "Longitude of the location"
-// @Param         Radius     query float64 true "Search radius in meters"
-// @Param         Limit      query int     false "Limit number of results"
-// @Param         Offset     query int     false "Offset for pagination"
-// @Success       200  {object} pb.NearbyFlashSalesRes "List of nearby flash sales"
-// @Failure       400  {string}  string "Invalid request"
-// @Failure       500  {string}  string "Internal server error"
-// @Router        /v1/flashSale/nearby [get]
-func (h *Handler) GetNearbyFlashSales(c *gin.Context) {
 
-	var req pb.GetNearbyFlashSalesReq
 
-	latitude := c.Query("latitude")
-	longitude := c.Query("longitude")
-	radius := c.Query("radius")
-
-	req.Latitude, _ = strconv.ParseFloat(latitude, 64)
-	req.Longitude, _ = strconv.ParseFloat(longitude, 64)
-	req.Radius, _ = strconv.ParseFloat(radius, 64)
-
-	filter := &pb.Pagination{}
-
-	if limit := c.Query("limit"); limit != "" {
-		if value, err := strconv.Atoi(limit); err == nil {
-			filter.Limit = int32(value)
-		} else {
-			c.JSON(400, gin.H{"error": err.Error()})
-			return
-		}
-	}
-
-	if offset := c.Query("offset"); offset != "" {
-		if value, err := strconv.Atoi(offset); err == nil {
-			filter.Offset = int32(value)
-		} else {
-			c.JSON(400, gin.H{"error": err.Error()})
-			return
-		}
-	}
-
-	res, err := h.Clients.FlashSale.GetNearbyFlashSales(context.Background(), &req)
-	if err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(200, res)
-}
 
 // @Summary       Get Flash Sale  Location
 // @Description   Retrieve the location details of a Flash Sale  by its ID

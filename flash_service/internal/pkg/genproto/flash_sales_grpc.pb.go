@@ -27,7 +27,6 @@ const (
 	FlashSaleService_AddProductToFlashSale_FullMethodName      = "/proto.FlashSaleService/AddProductToFlashSale"
 	FlashSaleService_RemoveProductFromFlashSale_FullMethodName = "/proto.FlashSaleService/RemoveProductFromFlashSale"
 	FlashSaleService_CancelFlashSale_FullMethodName            = "/proto.FlashSaleService/CancelFlashSale"
-	FlashSaleService_GetNearbyFlashSales_FullMethodName        = "/proto.FlashSaleService/GetNearbyFlashSales"
 	FlashSaleService_GetStoreLocation_FullMethodName           = "/proto.FlashSaleService/GetStoreLocation"
 )
 
@@ -43,7 +42,6 @@ type FlashSaleServiceClient interface {
 	AddProductToFlashSale(ctx context.Context, in *AddProductReq, opts ...grpc.CallOption) (*Void, error)
 	RemoveProductFromFlashSale(ctx context.Context, in *RemoveProductReq, opts ...grpc.CallOption) (*Void, error)
 	CancelFlashSale(ctx context.Context, in *GetById, opts ...grpc.CallOption) (*CancelFlashSaleRes, error)
-	GetNearbyFlashSales(ctx context.Context, in *GetNearbyFlashSalesReq, opts ...grpc.CallOption) (*NearbyFlashSalesRes, error)
 	GetStoreLocation(ctx context.Context, in *GetStoreLocationReq, opts ...grpc.CallOption) (*StoreLocation, error)
 }
 
@@ -135,16 +133,6 @@ func (c *flashSaleServiceClient) CancelFlashSale(ctx context.Context, in *GetByI
 	return out, nil
 }
 
-func (c *flashSaleServiceClient) GetNearbyFlashSales(ctx context.Context, in *GetNearbyFlashSalesReq, opts ...grpc.CallOption) (*NearbyFlashSalesRes, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(NearbyFlashSalesRes)
-	err := c.cc.Invoke(ctx, FlashSaleService_GetNearbyFlashSales_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *flashSaleServiceClient) GetStoreLocation(ctx context.Context, in *GetStoreLocationReq, opts ...grpc.CallOption) (*StoreLocation, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StoreLocation)
@@ -167,7 +155,6 @@ type FlashSaleServiceServer interface {
 	AddProductToFlashSale(context.Context, *AddProductReq) (*Void, error)
 	RemoveProductFromFlashSale(context.Context, *RemoveProductReq) (*Void, error)
 	CancelFlashSale(context.Context, *GetById) (*CancelFlashSaleRes, error)
-	GetNearbyFlashSales(context.Context, *GetNearbyFlashSalesReq) (*NearbyFlashSalesRes, error)
 	GetStoreLocation(context.Context, *GetStoreLocationReq) (*StoreLocation, error)
 	mustEmbedUnimplementedFlashSaleServiceServer()
 }
@@ -199,9 +186,6 @@ func (UnimplementedFlashSaleServiceServer) RemoveProductFromFlashSale(context.Co
 }
 func (UnimplementedFlashSaleServiceServer) CancelFlashSale(context.Context, *GetById) (*CancelFlashSaleRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelFlashSale not implemented")
-}
-func (UnimplementedFlashSaleServiceServer) GetNearbyFlashSales(context.Context, *GetNearbyFlashSalesReq) (*NearbyFlashSalesRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetNearbyFlashSales not implemented")
 }
 func (UnimplementedFlashSaleServiceServer) GetStoreLocation(context.Context, *GetStoreLocationReq) (*StoreLocation, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStoreLocation not implemented")
@@ -363,24 +347,6 @@ func _FlashSaleService_CancelFlashSale_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FlashSaleService_GetNearbyFlashSales_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetNearbyFlashSalesReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FlashSaleServiceServer).GetNearbyFlashSales(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FlashSaleService_GetNearbyFlashSales_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FlashSaleServiceServer).GetNearbyFlashSales(ctx, req.(*GetNearbyFlashSalesReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _FlashSaleService_GetStoreLocation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetStoreLocationReq)
 	if err := dec(in); err != nil {
@@ -437,10 +403,6 @@ var FlashSaleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelFlashSale",
 			Handler:    _FlashSaleService_CancelFlashSale_Handler,
-		},
-		{
-			MethodName: "GetNearbyFlashSales",
-			Handler:    _FlashSaleService_GetNearbyFlashSales_Handler,
 		},
 		{
 			MethodName: "GetStoreLocation",

@@ -42,7 +42,6 @@ type FlashSaleI interface {
 	AddProductToFlashSale(req *pb.AddProductReq) (*pb.Void, error)
 	RemoveProductFromFlashSale(req *pb.RemoveProductReq) (*pb.Void, error)
 	CancelFlashSale(req *pb.GetById) (*pb.CancelFlashSaleRes, error)
-	GetNearbyFlashSales(req *pb.GetNearbyFlashSalesReq) (*pb.NearbyFlashSalesRes, error)
 	GetStoreLocation(req *pb.GetStoreLocationReq) (*pb.StoreLocation, error)
 }
 type FlashSaleProductI interface {

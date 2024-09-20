@@ -24,7 +24,7 @@ func (r *ReviewRepo) CreateReview(req *pb.CreateReviewReq) (*pb.Void, error) {
 		return nil, err
 	}
 
-	err = r.updateProductRating(req.ProductId)
+	err = r.UpdateProductRating(req.ProductId)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (r *ReviewRepo) GetProductRating(req *pb.GetProductRatingReq) (*pb.ProductR
 	return &res, nil
 }
 
-func (r *ReviewRepo) updateProductRating(productId string) error {
+func (r *ReviewRepo) UpdateProductRating(productId string) error {
 	var totalReviews int64
 	var sumRatings int64
 

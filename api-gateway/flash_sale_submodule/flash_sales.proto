@@ -17,7 +17,6 @@ service FlashSaleService {
     rpc RemoveProductFromFlashSale(RemoveProductReq) returns (Void); 
     rpc CancelFlashSale(GetById) returns (CancelFlashSaleRes); 
 
-    rpc GetNearbyFlashSales(GetNearbyFlashSalesReq) returns (NearbyFlashSalesRes);
     rpc GetStoreLocation(GetStoreLocationReq) returns (StoreLocation);
 }
 
@@ -26,7 +25,6 @@ message CreateFlashSalesReq {
     string start_time = 2;
     string end_time = 3;
     string status = 4;
-    string productID = 5;
 }
 
 message UpdateFlashSalesReq {
@@ -96,26 +94,6 @@ message Refund {
     string order_id = 2;
     float amount = 3;
     string refund_status = 4;
-}
-
-message GetNearbyFlashSalesReq {
-    double latitude = 1;  
-    double longitude = 2; 
-    double radius = 3;    
-}
-
-message FlashSaleWithLocation {
-    string flash_sale_id = 1;
-    string name = 2;
-    string description = 3;
-    double latitude = 4;   
-    double longitude = 5;  
-    string address = 6;    
-}
-
-message NearbyFlashSalesRes {
-    repeated FlashSaleWithLocation flash_sales = 1; 
-    int64 total_count = 2;                          
 }
 
 message GetStoreLocationReq {

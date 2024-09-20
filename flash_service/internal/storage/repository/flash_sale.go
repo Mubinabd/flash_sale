@@ -24,29 +24,29 @@ func NewFlashSaleRepo(db *sql.DB) *FlashSaleRepo {
 }
 
 func (r *FlashSaleRepo) CreateFlashSale(req *pb.CreateFlashSalesReq) (*pb.Void, error) {
-	id := uuid.NewString()
+    id := uuid.NewString()
 
-	query := `INSERT INTO flash_sales 
-			(id, 
-			name, 
-			product_id,
-			start_time, 
-			end_time, 
-			status, 
-			latitude, 
-			longitude, 
-			address) 
-			VALUES 
-			($1, $2, $3, $4, $5, $6, $7, $8,$9)`
+    query := `INSERT INTO flash_sales 
+              (id, 
+              name, 
+              start_time, 
+              end_time, 
+              status, 
+              latitude, 
+              longitude, 
+              address) 
+              VALUES 
+              ($1, $2, $3, $4, $5, $6, $7, $8)`
 
-	_, err := r.db.Exec(query, id, req.Name, req.StartTime, req.EndTime, req.Status,req.ProductID,nil,nil,nil)
+  
+    _, err := r.db.Exec(query, id, req.Name,req.StartTime, req.EndTime, req.Status, nil, nil, nil)
+    if err != nil {
+        return nil, err
+    }
 
-	if err != nil {
-		return nil, err
-	}
-
-	return &pb.Void{}, nil
+    return &pb.Void{}, nil
 }
+
 
 func (r *FlashSaleRepo) UpdateFlashSale(req *pb.UpdateFlashSalesReq) (*pb.Void, error) {
 	var args []interface{}
@@ -85,15 +85,6 @@ func (r *FlashSaleRepo) UpdateFlashSale(req *pb.UpdateFlashSalesReq) (*pb.Void, 
 		}
 	}
 
-	// Update products in flash sale
-	for _, product := range req.Body.Products {
-		_, err := r.db.Exec(`INSERT INTO flash_sale_products (flash_sale_id, product_id, added_at) VALUES ($1, $2, NOW())`,
-			req.Id, product.Id)
-		if err != nil {
-			return nil, err
-		}
-	}
-
 	return &pb.Void{}, nil
 }
 
@@ -127,34 +118,6 @@ func (r *FlashSaleRepo) GetFlashSale(req *pb.GetById) (*pb.FlashSale, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	// Get products for the flash sale
-	rows, err := r.db.Query(`SELECT p.id, p.name, p.description, p.image_url, p.price, p.quantity_available
-							  FROM flash_sale_products fsp
-							  JOIN products p ON p.id = fsp.product_id
-							  WHERE fsp.flash_sale_id = $1`, req.Id)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var products []*pb.Product
-	for rows.Next() {
-		var product pb.Product
-		err := rows.Scan(
-			&product.Id,
-			&product.Name,
-			&product.Description,
-			&product.ImageUrl,
-			&product.Price,
-			&product.QuantityAvailable,
-		)
-		if err != nil {
-			return nil, err
-		}
-		products = append(products, &product)
-	}
-	res.Products = products
 
 	return res, nil
 }
@@ -249,78 +212,32 @@ func (r *FlashSaleRepo) RemoveProductFromFlashSale(req *pb.RemoveProductReq) (*p
 	return &pb.Void{}, nil
 }
 
-func (r *FlashSaleRepo) CancelFlashSale(req *pb.GetById) (*pb.CancelFlashSaleRes, error) {
-	tx, err := r.db.Begin()
-	if err != nil {
-		return nil, err
-	}
-	defer tx.Rollback()
-
-	_, err = tx.Exec(`UPDATE flash_sales SET status = 'canceled', updated_at = NOW() WHERE id = $1`, req.Id)
-	if err != nil {
-		return nil, err
-	}
-
-	var cancellationID string
-	err = tx.QueryRow(`INSERT INTO flash_sale_cancellations (flash_sale_id, cancellation_status, created_at) VALUES ($1, 'canceled', NOW()) RETURNING id`,
-		req.Id).Scan(&cancellationID)
-	if err != nil {
-		return nil, err
-	}
-
-	if err = tx.Commit(); err != nil {
-		return nil, err
-	}
-
-	return &pb.CancelFlashSaleRes{CancellationStatus: cancellationID}, nil
-}
-
-func (s *FlashSaleRepo) GetNearbyFlashSales(req *pb.GetNearbyFlashSalesReq) (*pb.NearbyFlashSalesRes, error) {
-	rows, err := s.db.Query(`
-        SELECT id AS flash_sale_id, name, description, latitude, longitude, address
-        FROM flash_sales
-        WHERE ST_DistanceSphere(
-                ST_MakePoint(longitude, latitude),
-                ST_MakePoint($2, $1)
-              ) <= $3
-        ORDER BY ST_DistanceSphere(
-                ST_MakePoint(longitude, latitude),
-                ST_MakePoint($2, $1)
-              )
-        LIMIT $4 OFFSET $5`,
-		req.Latitude, req.Longitude, req.Radius)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var flashSales []*pb.FlashSaleWithLocation
-	for rows.Next() {
-		var sale pb.FlashSaleWithLocation
-		if err := rows.Scan(&sale.FlashSaleId, &sale.Name, &sale.Description, &sale.Latitude, &sale.Longitude, &sale.Address); err != nil {
+	func (r *FlashSaleRepo) CancelFlashSale(req *pb.GetById) (*pb.CancelFlashSaleRes, error) {
+		tx, err := r.db.Begin()
+		if err != nil {
 			return nil, err
 		}
-		flashSales = append(flashSales, &sale)
+		defer tx.Rollback()
+
+		_, err = tx.Exec(`UPDATE flash_sales SET status = 'canceled', updated_at = NOW() WHERE id = $1`, req.Id)
+		if err != nil {
+			return nil, err
+		}
+
+		var cancellationID string
+		err = tx.QueryRow(`INSERT INTO flash_sale_cancellations (flash_sale_id, cancellation_status, created_at) VALUES ($1, 'canceled', NOW()) RETURNING id`,
+			req.Id).Scan(&cancellationID)
+		if err != nil {
+			return nil, err
+		}
+
+		if err = tx.Commit(); err != nil {
+			return nil, err
+		}
+
+		return &pb.CancelFlashSaleRes{CancellationStatus: cancellationID}, nil
 	}
 
-	var totalCount int64
-	err = s.db.QueryRow(`
-        SELECT COUNT(*)
-        FROM flash_sales
-        WHERE ST_DistanceSphere(
-                ST_MakePoint(longitude, latitude),
-                ST_MakePoint($2, $1)
-              ) <= $3`,
-		req.Latitude, req.Longitude, req.Radius).Scan(&totalCount)
-	if err != nil {
-		return nil, err
-	}
-
-	return &pb.NearbyFlashSalesRes{
-		FlashSales: flashSales,
-		TotalCount: totalCount,
-	}, nil
-}
 
 func (s *FlashSaleRepo) GetStoreLocation(req *pb.GetStoreLocationReq) (*pb.StoreLocation, error) {
 	var store pb.StoreLocation

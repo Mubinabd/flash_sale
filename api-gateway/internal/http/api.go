@@ -70,7 +70,6 @@ func NewGin(h *handlers.Handler) *gin.Engine {
 		flashSale.DELETE("/delete/:id", h.DeleteFlashSale)
 
 		flashSale.GET("/:id/location", h.GetStoreLocation)
-		flashSale.GET("/nearby", h.GetNearbyFlashSales)
 		flashSale.POST("/products", h.AddProductToFlashSale)
 		flashSale.DELETE("/products", h.RemoveProductFromFlashSale)
 		flashSale.POST("/:id/cancel", h.CancelFlashSale)
@@ -105,7 +104,7 @@ func NewGin(h *handlers.Handler) *gin.Engine {
 	review := router.Group("/v1/reviews")
 	{
 		review.POST("", h.CreateReview)
-		review.GET("/productID/rating", h.GetProductRating)
+		review.GET("/productId/rating", h.GetProductRating)
 	}
 	social := router.Group("/v1/deals")
 	{

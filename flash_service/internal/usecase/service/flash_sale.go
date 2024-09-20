@@ -91,15 +91,6 @@ func (s *FlashSaleService) CancelFlashSale(ctx context.Context, req *pb.GetById)
 	return res, nil
 }
 
-func (s *FlashSaleService) GetNearbyFlashSales(ctx context.Context, req *pb.GetNearbyFlashSalesReq) (*pb.NearbyFlashSalesRes, error) {
-	res, err := s.storage.FlashSale().GetNearbyFlashSales(req)
-	if err != nil {
-		return nil, err
-	}
-
-	return res, nil
-}
-
 
 func (s *FlashSaleService) GetStoreLocation(ctx context.Context, req *pb.GetStoreLocationReq) (*pb.StoreLocation, error) {
 	res, err := s.storage.FlashSale().GetStoreLocation(req)

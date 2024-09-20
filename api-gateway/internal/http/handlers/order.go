@@ -29,20 +29,11 @@ func (h *Handler) CreateOrder(c *gin.Context) {
 		return
 	}
 
-	input, err := protojson.Marshal(&req)
+	_, err := h.Clients.Order.CreateOrder(context.Background(), &req)
 	if err != nil {
-		h.Logger.ERROR.Println("Failed to marshal request:", err)
-		c.JSON(500, "Internal server error: "+err.Error())
+		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-
-	err = h.Producer.ProduceMessages("create-order", input)
-	if err != nil {
-		h.Logger.ERROR.Println("Failed to produce Kafka message:", err)
-		c.JSON(500, "Internal server error: "+err.Error())
-		return
-	}
-
 	c.JSON(200, gin.H{"message": "Order created successfully"})
 
 }

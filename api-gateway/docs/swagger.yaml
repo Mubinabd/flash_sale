@@ -40,8 +40,6 @@ definitions:
         type: string
       name:
         type: string
-      productID:
-        type: string
       start_time:
         type: string
       status:
@@ -131,21 +129,6 @@ definitions:
       updated_at:
         type: string
     type: object
-  genproto.FlashSaleWithLocation:
-    properties:
-      address:
-        type: string
-      description:
-        type: string
-      flash_sale_id:
-        type: string
-      latitude:
-        type: number
-      longitude:
-        type: number
-      name:
-        type: string
-    type: object
   genproto.GetByEmail:
     properties:
       email:
@@ -218,15 +201,6 @@ definitions:
         type: string
       username:
         type: string
-    type: object
-  genproto.NearbyFlashSalesRes:
-    properties:
-      flash_sales:
-        items:
-          $ref: '#/definitions/genproto.FlashSaleWithLocation'
-        type: array
-      total_count:
-        type: integer
     type: object
   genproto.NotificationCreate:
     properties:
@@ -651,37 +625,6 @@ paths:
       summary: Get all Users
       tags:
       - Auth
-  /v1/FlashSale/delete/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete an FlashSale by ID
-      parameters:
-      - description: FlashSale ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: message":"Flash Sale deleted successfully
-          schema:
-            type: string
-        "400":
-          description: Invalid request
-          schema:
-            type: string
-        "500":
-          description: Internal server error
-          schema:
-            type: string
-      security:
-      - BearerAuth: []
-      summary: Delete FlashSale
-      tags:
-      - FlashSale
   /v1/flashSale/{id}:
     get:
       consumes:
@@ -784,6 +727,37 @@ paths:
       summary: Create FlashSale
       tags:
       - FlashSale
+  /v1/flashSale/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an FlashSale by ID
+      parameters:
+      - description: FlashSale ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message":"Flash Sale deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete FlashSale
+      tags:
+      - FlashSale
   /v1/flashSale/list:
     get:
       consumes:
@@ -824,55 +798,6 @@ paths:
       security:
       - BearerAuth: []
       summary: List FlashSales
-      tags:
-      - FlashSale
-  /v1/flashSale/nearby:
-    get:
-      consumes:
-      - application/json
-      description: Retrieve flash sales near a specific location
-      parameters:
-      - description: Latitude of the location
-        in: query
-        name: Latitude
-        required: true
-        type: number
-      - description: Longitude of the location
-        in: query
-        name: Longitude
-        required: true
-        type: number
-      - description: Search radius in meters
-        in: query
-        name: Radius
-        required: true
-        type: number
-      - description: Limit number of results
-        in: query
-        name: Limit
-        type: integer
-      - description: Offset for pagination
-        in: query
-        name: Offset
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: List of nearby flash sales
-          schema:
-            $ref: '#/definitions/genproto.NearbyFlashSalesRes'
-        "400":
-          description: Invalid request
-          schema:
-            type: string
-        "500":
-          description: Internal server error
-          schema:
-            type: string
-      security:
-      - BearerAuth: []
-      summary: Get Nearby Flash Sales
       tags:
       - FlashSale
   /v1/flashSale/products:

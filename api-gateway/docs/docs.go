@@ -275,55 +275,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/FlashSale/delete/{id}": {
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Delete an FlashSale by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "FlashSale"
-                ],
-                "summary": "Delete FlashSale",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "FlashSale ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "message\":\"Flash Sale deleted successfully",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
         "/v1/flashSale/create": {
             "post": {
                 "security": [
@@ -356,6 +307,55 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "Flash Sale created successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/flashSale/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete an FlashSale by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FlashSale"
+                ],
+                "summary": "Delete FlashSale",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "FlashSale ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message\":\"Flash Sale deleted successfully",
                         "schema": {
                             "type": "string"
                         }
@@ -424,81 +424,6 @@ const docTemplate = `{
                         "description": "List of FlashSales",
                         "schema": {
                             "$ref": "#/definitions/genproto.ListAllFlashSalesRes"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/flashSale/nearby": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Retrieve flash sales near a specific location",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "FlashSale"
-                ],
-                "summary": "Get Nearby Flash Sales",
-                "parameters": [
-                    {
-                        "type": "number",
-                        "description": "Latitude of the location",
-                        "name": "Latitude",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "number",
-                        "description": "Longitude of the location",
-                        "name": "Longitude",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "number",
-                        "description": "Search radius in meters",
-                        "name": "Radius",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Limit number of results",
-                        "name": "Limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Offset for pagination",
-                        "name": "Offset",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "List of nearby flash sales",
-                        "schema": {
-                            "$ref": "#/definitions/genproto.NearbyFlashSalesRes"
                         }
                     },
                     "400": {
@@ -2362,9 +2287,6 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "productID": {
-                    "type": "string"
-                },
                 "start_time": {
                     "type": "string"
                 },
@@ -2502,29 +2424,6 @@ const docTemplate = `{
                 }
             }
         },
-        "genproto.FlashSaleWithLocation": {
-            "type": "object",
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "flash_sale_id": {
-                    "type": "string"
-                },
-                "latitude": {
-                    "type": "number"
-                },
-                "longitude": {
-                    "type": "number"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "genproto.GetByEmail": {
             "type": "object",
             "properties": {
@@ -2635,20 +2534,6 @@ const docTemplate = `{
                 },
                 "username": {
                     "type": "string"
-                }
-            }
-        },
-        "genproto.NearbyFlashSalesRes": {
-            "type": "object",
-            "properties": {
-                "flash_sales": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/genproto.FlashSaleWithLocation"
-                    }
-                },
-                "total_count": {
-                    "type": "integer"
                 }
             }
         },

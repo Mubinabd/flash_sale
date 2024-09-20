@@ -33,13 +33,7 @@ func Register(h *KafkaHandler, cfg *config.Config) error {
 			return errors.New("error registering consumer:" + err.Error())
 		}
 	}
-	if err := kcm.RegisterConsumer(brokers, "create-flash", "create-flash-id", h.CreateFlashSale()); err != nil {
-		if err == kafka.ErrConsumerAlreadyExists {
-			return errors.New("consumer for topic 'create-flash' already exists")
-		} else {
-			return errors.New("error registering consumer:" + err.Error())
-		}
-	}
+	
 	if err := kcm.RegisterConsumer(brokers, "update-flash", "update-flash-id", h.UpdateFlashSale()); err != nil {
 		if err == kafka.ErrConsumerAlreadyExists {
 			return errors.New("consumer for topic 'update-flash' already exists")
@@ -69,13 +63,6 @@ func Register(h *KafkaHandler, cfg *config.Config) error {
 		}
 	}
 	
-	if err := kcm.RegisterConsumer(brokers, "create-order", "create-order-id", h.CreateOrder()); err != nil {
-		if err == kafka.ErrConsumerAlreadyExists {
-			return errors.New("consumer for topic 'create-order' already exists")
-		} else {
-			return errors.New("error registering consumer:" + err.Error())
-		}
-	}
 	if err := kcm.RegisterConsumer(brokers, "update-order", "update-order-id", h.UpdateOrder()); err != nil {
 		if err == kafka.ErrConsumerAlreadyExists {
 			return errors.New("consumer for topic 'update-order' already exists")

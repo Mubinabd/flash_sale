@@ -74,24 +74,7 @@ func (h *KafkaHandler) EditSetting() func(message []byte) {
 		log.Printf("Edit Setting: %+v", res)
 	}
 }
-func (h *KafkaHandler) CreateFlashSale() func(message []byte) {
-	return func(message []byte) {
 
-		//unmarshal the message
-		var cer pb.CreateFlashSalesReq
-		if err := protojson.Unmarshal(message, &cer); err != nil {
-			log.Fatalf("Failed to unmarshal JSON to Protobuf message: %v", err)
-			return
-		}
-
-		res, err := h.flashSale.CreateFlashSale(context.Background(), &cer)
-		if err != nil {
-			log.Fatal(err)
-			return
-		}
-		log.Printf("Create Flash Sale: %+v", res)
-	}
-}
 func (h *KafkaHandler) UpdateFlashSale() func(message []byte) {
 	return func(message []byte) {
 
@@ -165,24 +148,7 @@ func (h *KafkaHandler) CreateNotification() func(message []byte) {
 	}
 
 }
-func (h *KafkaHandler) CreateOrder() func(message []byte) {
-	return func(message []byte) {
 
-		//unmarshal the message
-		var cer pb.CreateOrderReq
-		if err := protojson.Unmarshal(message, &cer); err != nil {
-			log.Fatalf("Failed to unmarshal JSON to Protobuf message: %v", err)
-			return
-		}
-
-		res, err := h.order.CreateOrder(context.Background(), &cer)
-		if err != nil {
-			log.Fatal(err)
-			return
-		}
-		log.Printf("create order: %+v", res)
-	}
-}
 func (h *KafkaHandler) UpdateOrder() func(message []byte) {
 	return func(message []byte) {
 
