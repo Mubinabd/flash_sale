@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option go_package = "internal/pkg/genproto";
+
+package proto;
+
+import "flash_sale_submodule/common.proto";
+
+service ReviewService {
+    rpc CreateReview(CreateReviewReq) returns (Void);
+    rpc GetProductRating(GetProductRatingReq) returns (ProductRatingRes);
+}
+
+message CreateReviewReq {
+    string user_id = 1;
+    string product_id = 2;
+    int32 rating = 3; 
+    string review_text = 4; 
+    string created_at = 5;  
+}
+
+message Review {
+    string user_id = 1;
+    string user_name = 2; 
+    int32 rating = 3;  
+    string review_text = 4; 
+    string created_at = 5;  
+}
+
+
+
+
+message GetProductRatingReq {
+    string product_id = 1;  
+}
+
+message ProductRatingRes {
+    string product_id = 1; 
+    float average_rating = 2;  
+    int64 total_reviews = 3;  
+}

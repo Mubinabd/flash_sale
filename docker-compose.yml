@@ -1,0 +1,112 @@
+version: '3.8'
+
+services:
+  gateway:
+    container_name: gateway
+    build: ./flash-sale-gateway
+    ports:
+      - "5050:5050"
+    networks:
+      - flashSale
+    environment:
+      - KAFKA_BROKER=kafka:9092
+
+  flash_sale_service:
+    container_name: flash_sale
+    build: ./flash_service
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    ports:
+      - "50051:50052"
+    networks:
+      - flashSale
+    environment:
+      POSTGRES_HOST: postgres-db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DATABASE: flash_sale
+
+  migrate:
+    image: migrate/migrate
+    networks:
+      - flashSale
+    volumes:
+      - ./migrations:/migrations
+    command: [
+      "-path", "/migrations", 
+      "-database", "postgres://postgres:1234@postgres-db:5432/flash_sale?sslmode=disable", 
+      "up"
+    ]
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+  
+  
+  redis:
+    image: "redis:latest"
+    container_name: redis_auth
+    ports:
+      - "6377:6379"
+    networks:
+      - flashSale
+
+  postgres-db:
+    container_name: flash-sale
+    image: postgres:latest
+    environment:
+      PGUSER: postgres
+      POSTGRES_PASSWORD: 1234
+      PGDATA: /data/postgres
+      POSTGRES_DB: flash_sale 
+    volumes:
+      - db:/flash_sale-database/flash_sale-memory
+    ports:
+      - "5437:5432"
+    networks:
+      - flashSale
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h postgres-db -p 5432"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.4
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+    networks:
+      - flashSale
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.4
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 29097:29092
+    networks:
+      - flashSale
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+volumes:
+  db:
+
+networks:
+  flashSale:
+    external: true
+    name: flash
+    driver: bridge
+

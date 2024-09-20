@@ -1,0 +1,3 @@
+[submodule "flash_sale_submodule"]
+	path = flash_sale_submodule
+	url = https://github.com/Mubinabd/flash_sale_submodule.git
