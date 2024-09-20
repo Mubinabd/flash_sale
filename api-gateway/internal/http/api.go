@@ -104,7 +104,7 @@ func NewGin(h *handlers.Handler) *gin.Engine {
 	review := router.Group("/v1/reviews")
 	{
 		review.POST("", h.CreateReview)
-		review.GET("/productId/rating", h.GetProductRating)
+		review.GET("/:productId/rating", h.GetProductRating)
 	}
 	social := router.Group("/v1/deals")
 	{
