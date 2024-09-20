@@ -1,0 +1,1939 @@
+basePath: /
+definitions:
+  genproto.AddProductReq:
+    properties:
+      flash_sale_id:
+        type: string
+      product:
+        $ref: '#/definitions/genproto.Product'
+    type: object
+  genproto.CancelFlashSaleRes:
+    properties:
+      cancellation_status:
+        type: string
+      refund_info:
+        items:
+          $ref: '#/definitions/genproto.Refund'
+        type: array
+    type: object
+  genproto.ChangePasswordReqBody:
+    properties:
+      CurrentPassword:
+        type: string
+      NewPassword:
+        type: string
+    type: object
+  genproto.CreateFlashSaleProductReq:
+    properties:
+      available_quantity:
+        type: integer
+      discounted_price:
+        type: number
+      flashSaleId:
+        type: string
+      productId:
+        type: string
+    type: object
+  genproto.CreateFlashSalesReq:
+    properties:
+      end_time:
+        type: string
+      name:
+        type: string
+      productID:
+        type: string
+      start_time:
+        type: string
+      status:
+        type: string
+    type: object
+  genproto.CreateOrderReq:
+    properties:
+      flashSaleID:
+        type: string
+      order_status:
+        type: string
+      userID:
+        type: string
+    type: object
+  genproto.CreateProductReq:
+    properties:
+      description:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      stock_quantity:
+        type: integer
+    type: object
+  genproto.CreateReviewReq:
+    properties:
+      created_at:
+        type: string
+      product_id:
+        type: string
+      rating:
+        type: integer
+      review_text:
+        type: string
+      user_id:
+        type: string
+    type: object
+  genproto.EditProfileReqBpdy:
+    properties:
+      DateOfBirth:
+        type: string
+      Email:
+        type: string
+      FullName:
+        type: string
+      Username:
+        type: string
+    type: object
+  genproto.FlashSale:
+    properties:
+      created_at:
+        type: string
+      end_time:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/genproto.Product'
+        type: array
+      start_time:
+        type: string
+      status:
+        type: string
+    type: object
+  genproto.FlashSaleProduct:
+    properties:
+      available_quantity:
+        type: integer
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      discounted_price:
+        type: number
+      flashSale:
+        $ref: '#/definitions/genproto.FlashSale'
+      id:
+        type: string
+      product:
+        $ref: '#/definitions/genproto.Products'
+      updated_at:
+        type: string
+    type: object
+  genproto.FlashSaleWithLocation:
+    properties:
+      address:
+        type: string
+      description:
+        type: string
+      flash_sale_id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+    type: object
+  genproto.GetByEmail:
+    properties:
+      email:
+        type: string
+    type: object
+  genproto.ListAllFlashSaleProductsRes:
+    properties:
+      flash_sale_products:
+        items:
+          $ref: '#/definitions/genproto.FlashSaleProduct'
+        type: array
+      limit:
+        type: integer
+      offset:
+        type: integer
+      total_count:
+        type: integer
+    type: object
+  genproto.ListAllFlashSalesRes:
+    properties:
+      flash_sales:
+        items:
+          $ref: '#/definitions/genproto.FlashSale'
+        type: array
+      limit:
+        type: integer
+      offset:
+        type: integer
+      total_count:
+        type: integer
+    type: object
+  genproto.ListAllOrdersRes:
+    properties:
+      limit:
+        type: integer
+      offset:
+        type: integer
+      orders:
+        items:
+          $ref: '#/definitions/genproto.Order'
+        type: array
+      total_count:
+        type: integer
+    type: object
+  genproto.ListAllProductsRes:
+    properties:
+      limit:
+        type: integer
+      offset:
+        type: integer
+      products:
+        items:
+          $ref: '#/definitions/genproto.Products'
+        type: array
+      total_count:
+        type: integer
+    type: object
+  genproto.ListUserRes:
+    properties:
+      count:
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/genproto.UserRes'
+        type: array
+    type: object
+  genproto.LoginReq:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  genproto.NearbyFlashSalesRes:
+    properties:
+      flash_sales:
+        items:
+          $ref: '#/definitions/genproto.FlashSaleWithLocation'
+        type: array
+      total_count:
+        type: integer
+    type: object
+  genproto.NotificationCreate:
+    properties:
+      content:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+      userId:
+        type: string
+    type: object
+  genproto.NotificationGet:
+    properties:
+      Content:
+        type: string
+      CreatedAt:
+        type: string
+      Id:
+        type: string
+      Status:
+        type: string
+      Type:
+        type: string
+      UserId:
+        type: string
+    type: object
+  genproto.NotificationList:
+    properties:
+      Limit:
+        type: integer
+      Notifications:
+        items:
+          $ref: '#/definitions/genproto.NotificationGet'
+        type: array
+      Offset:
+        type: integer
+      TotalCount:
+        type: integer
+    type: object
+  genproto.NotificationUpt:
+    properties:
+      Content:
+        type: string
+      Status:
+        type: string
+    type: object
+  genproto.Order:
+    properties:
+      created_at:
+        type: string
+      flashSaleID:
+        $ref: '#/definitions/genproto.FlashSale'
+      id:
+        type: string
+      order_status:
+        type: string
+      user:
+        $ref: '#/definitions/genproto.UserRes'
+    type: object
+  genproto.OrderHistoryRes:
+    properties:
+      orders:
+        items:
+          $ref: '#/definitions/genproto.Order'
+        type: array
+      total_count:
+        type: integer
+    type: object
+  genproto.Product:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      quantity_available:
+        type: integer
+    type: object
+  genproto.ProductRatingRes:
+    properties:
+      average_rating:
+        type: number
+      product_id:
+        type: string
+      total_reviews:
+        type: integer
+    type: object
+  genproto.Products:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      stock_quantity:
+        type: integer
+    type: object
+  genproto.Refund:
+    properties:
+      amount:
+        type: number
+      order_id:
+        type: string
+      refund_status:
+        type: string
+      user_id:
+        type: string
+    type: object
+  genproto.RegisterReq:
+    properties:
+      date_of_birth:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  genproto.RemoveProductReq:
+    properties:
+      flash_sale_id:
+        type: string
+      product_id:
+        type: string
+    type: object
+  genproto.ResetPassReqBody:
+    properties:
+      new_password:
+        type: string
+      reset_token:
+        type: string
+    type: object
+  genproto.Setting:
+    properties:
+      Language:
+        type: string
+      Notification:
+        type: string
+      PrivacyLevel:
+        type: string
+      Theme:
+        type: string
+    type: object
+  genproto.UpdateBody:
+    properties:
+      description:
+        type: string
+      image_url:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      stock_quantity:
+        type: integer
+    type: object
+  genproto.UpdateFlashSale:
+    properties:
+      end_time:
+        type: string
+      name:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/genproto.Product'
+        type: array
+      start_time:
+        type: string
+      status:
+        type: string
+    type: object
+  genproto.UpdateFlashSaleProduct:
+    properties:
+      available_quantity:
+        type: integer
+      discounted_price:
+        type: number
+      flashSaleId:
+        type: string
+      productId:
+        type: string
+    type: object
+  genproto.UpdateFlashSaleProductReq:
+    properties:
+      body:
+        $ref: '#/definitions/genproto.UpdateFlashSaleProduct'
+      id:
+        type: string
+    type: object
+  genproto.UpdateFlashSalesReq:
+    properties:
+      body:
+        $ref: '#/definitions/genproto.UpdateFlashSale'
+      id:
+        type: string
+    type: object
+  genproto.UpdateOrder:
+    properties:
+      flashSaleID:
+        type: string
+      order_status:
+        type: string
+      userID:
+        type: string
+    type: object
+  genproto.UpdateOrderReq:
+    properties:
+      body:
+        $ref: '#/definitions/genproto.UpdateOrder'
+      id:
+        type: string
+    type: object
+  genproto.UpdateProductReq:
+    properties:
+      body:
+        $ref: '#/definitions/genproto.UpdateBody'
+      id:
+        type: string
+    type: object
+  genproto.UserRes:
+    properties:
+      DateOfBirth:
+        type: string
+      Email:
+        type: string
+      FullName:
+        type: string
+      Id:
+        type: string
+      Role:
+        type: string
+      Username:
+        type: string
+    type: object
+  genproto.Void:
+    type: object
+info:
+  contact: {}
+  description: API for Instant Delivery resources
+  title: Flash Sale API Documentation
+  version: "1.0"
+paths:
+  /forgot-password:
+    post:
+      consumes:
+      - application/json
+      description: Request to reset user's password
+      parameters:
+      - description: Email Request
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.GetByEmail'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password reset email sent successfully
+          schema:
+            type: string
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Forgot password
+      tags:
+      - Auth
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user
+      parameters:
+      - description: Login Request
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.LoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Login a user
+      tags:
+      - Auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user
+      parameters:
+      - description: Register User Request
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.RegisterReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User registered successfully
+          schema:
+            type: string
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Register a new user
+      tags:
+      - Auth
+  /reset-password:
+    post:
+      consumes:
+      - application/json
+      description: Reset user's password with a reset code
+      parameters:
+      - description: Password Reset Request
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.ResetPassReqBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password reset successfully
+          schema:
+            type: string
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Reset password
+      tags:
+      - Auth
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get all Users
+      parameters:
+      - description: UserName
+        in: query
+        name: username
+        type: string
+      - description: Full Name
+        in: query
+        name: full_name
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.ListUserRes'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get all Users
+      tags:
+      - Auth
+  /v1/FlashSale/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an FlashSale by ID
+      parameters:
+      - description: FlashSale ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message":"Flash Sale deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete FlashSale
+      tags:
+      - FlashSale
+  /v1/flashSale/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get an FlashSale by ID
+      parameters:
+      - description: FlashSale ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: FlashSale data
+          schema:
+            $ref: '#/definitions/genproto.FlashSale'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "404":
+          description: FlashSale not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get FlashSale
+      tags:
+      - FlashSale
+  /v1/flashSale/{id}/cancel:
+    post:
+      consumes:
+      - application/json
+      description: Cancel an existing flash sale
+      parameters:
+      - description: Flash Sale ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Flash sale cancelled successfully
+          schema:
+            $ref: '#/definitions/genproto.CancelFlashSaleRes'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "404":
+          description: Flash Sale not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Cancel Flash Sale
+      tags:
+      - FlashSale
+  /v1/flashSale/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new FlashSale
+      parameters:
+      - description: FlashSale data
+        in: body
+        name: FlashSale
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.CreateFlashSalesReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Flash Sale created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create FlashSale
+      tags:
+      - FlashSale
+  /v1/flashSale/list:
+    get:
+      consumes:
+      - application/json
+      description: List FlashSales with filters
+      parameters:
+      - description: Name
+        in: query
+        name: name
+        type: integer
+      - description: Status
+        in: query
+        name: status
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of FlashSales
+          schema:
+            $ref: '#/definitions/genproto.ListAllFlashSalesRes'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: List FlashSales
+      tags:
+      - FlashSale
+  /v1/flashSale/nearby:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve flash sales near a specific location
+      parameters:
+      - description: Latitude of the location
+        in: query
+        name: Latitude
+        required: true
+        type: number
+      - description: Longitude of the location
+        in: query
+        name: Longitude
+        required: true
+        type: number
+      - description: Search radius in meters
+        in: query
+        name: Radius
+        required: true
+        type: number
+      - description: Limit number of results
+        in: query
+        name: Limit
+        type: integer
+      - description: Offset for pagination
+        in: query
+        name: Offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of nearby flash sales
+          schema:
+            $ref: '#/definitions/genproto.NearbyFlashSalesRes'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get Nearby Flash Sales
+      tags:
+      - FlashSale
+  /v1/flashSale/products:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a product from an existing flash sale
+      parameters:
+      - description: Remove Product Request
+        in: body
+        name: RemoveProductReq
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.RemoveProductReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product removed from flash sale successfully
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Remove Product from Flash Sale
+      tags:
+      - FlashSale
+    post:
+      consumes:
+      - application/json
+      description: Add a product to an existing flash sale
+      parameters:
+      - description: Add Product Request
+        in: body
+        name: AddProductReq
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.AddProductReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product added to flash sale successfully
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Add Product to Flash Sale
+      tags:
+      - FlashSale
+  /v1/flashSale/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing FlashSale by ID
+      parameters:
+      - description: FlashSale update data
+        in: body
+        name: FlashSale
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.UpdateFlashSalesReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message":"Flash Sale updated successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update FlashSale
+      tags:
+      - FlashSale
+  /v1/flashSaleProduct/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get an FlashSaleProduct by ID
+      parameters:
+      - description: FlashSaleProduct ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: FlashSaleProduct data
+          schema:
+            $ref: '#/definitions/genproto.FlashSaleProduct'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "404":
+          description: Flash Sale Product not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get FlashSaleProduct
+      tags:
+      - FlashSaleProduct
+  /v1/flashSaleProduct/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new FlashSale
+      parameters:
+      - description: FlashSale data
+        in: body
+        name: FlashSale
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.CreateFlashSaleProductReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Flash Sale Product created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create FlashSale
+      tags:
+      - FlashSaleProduct
+  /v1/flashSaleProduct/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an group by ID
+      parameters:
+      - description: FlashSaleProduct ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message":"Flash Sale Product deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete FlashSaleProduct
+      tags:
+      - FlashSaleProduct
+  /v1/flashSaleProduct/list:
+    get:
+      consumes:
+      - application/json
+      description: List Flash Sale Products with filters
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      - description: DiscountPrice
+        in: query
+        name: discountPrice
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of Flash Sale Products
+          schema:
+            $ref: '#/definitions/genproto.ListAllFlashSaleProductsRes'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: List Flash Sale Products
+      tags:
+      - FlashSaleProduct
+  /v1/flashSaleProduct/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing Flash Sale Product by ID
+      parameters:
+      - description: FlashSaleProduct update data
+        in: body
+        name: FlashSaleProduct
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.UpdateFlashSaleProductReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message":"Flash Sale Product updated successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update Flash Sale Product
+      tags:
+      - FlashSaleProduct
+  /v1/notification/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific notification by its ID
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.NotificationGet'
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get a notification by ID
+      tags:
+      - Notifications
+  /v1/notification/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new notification with the provided details
+      parameters:
+      - description: Notification details
+        in: body
+        name: notification
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.NotificationCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create a new notification
+      tags:
+      - Notifications
+  /v1/notification/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a specific notification by its ID
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete a notification by ID
+      tags:
+      - Notifications
+  /v1/notification/list:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of notifications with optional filters
+      parameters:
+      - description: User ID
+        in: query
+        name: user_id
+        type: string
+      - description: Notification Status
+        in: query
+        name: status
+        type: string
+      - description: Content
+        in: query
+        name: content
+        type: string
+      - description: Limit for pagination
+        in: query
+        name: limit
+        type: integer
+      - description: Offset for pagination
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.NotificationList'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: List notifications with filters
+      tags:
+      - Notifications
+  /v1/notification/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update the details of a specific notification by its ID
+      parameters:
+      - description: Notification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Notification details
+        in: body
+        name: notification
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.NotificationUpt'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update notification details by ID
+      tags:
+      - Notifications
+  /v1/order/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get an Order by ID
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Order data
+          schema:
+            $ref: '#/definitions/genproto.Order'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "404":
+          description: Order not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get Order
+      tags:
+      - Order
+  /v1/order/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Order
+      parameters:
+      - description: Order data
+        in: body
+        name: Order
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.CreateOrderReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Order created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create Order
+      tags:
+      - Order
+  /v1/order/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an Order by ID
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message":"Order deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete Order
+      tags:
+      - Order
+  /v1/order/history:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a user's order history with pagination
+      parameters:
+      - description: User ID
+        in: query
+        name: UserId
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Order history response
+          schema:
+            $ref: '#/definitions/genproto.OrderHistoryRes'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get Order History
+      tags:
+      - Order
+  /v1/order/list:
+    get:
+      consumes:
+      - application/json
+      description: List Orders with filters
+      parameters:
+      - description: UserID
+        in: query
+        name: userID
+        type: integer
+      - description: Order Status
+        in: query
+        name: orderStatus
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of Orders
+          schema:
+            $ref: '#/definitions/genproto.ListAllOrdersRes'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: List Orders
+      tags:
+      - Order
+  /v1/order/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing Order by ID
+      parameters:
+      - description: Order update data
+        in: body
+        name: Order
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.UpdateOrderReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message":"Order updated successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update Order
+      tags:
+      - Order
+  /v1/product/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get an Product by ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product data
+          schema:
+            $ref: '#/definitions/genproto.Products'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "404":
+          description: Product not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get Product
+      tags:
+      - Product
+  /v1/product/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Product
+      parameters:
+      - description: Product data
+        in: body
+        name: Product
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.CreateProductReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create Product
+      tags:
+      - Product
+  /v1/product/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an Product by ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message":"Product deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete Product
+      tags:
+      - Product
+  /v1/product/list:
+    get:
+      consumes:
+      - application/json
+      description: List Products with filters
+      parameters:
+      - description: Name
+        in: query
+        name: name
+        type: integer
+      - description: Price
+        in: query
+        name: price
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of Products
+          schema:
+            $ref: '#/definitions/genproto.ListAllProductsRes'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: List Products
+      tags:
+      - Product
+  /v1/product/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing Product by ID
+      parameters:
+      - description: Product update data
+        in: body
+        name: Product
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.UpdateProductReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message":"Product updated successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update Product
+      tags:
+      - Product
+  /v1/reviews:
+    post:
+      consumes:
+      - application/json
+      description: Submit a review for a product
+      parameters:
+      - description: Create Review Request
+        in: body
+        name: CreateReviewReq
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.CreateReviewReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Review created successfully
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create a Review
+      tags:
+      - Review
+  /v1/reviews/{productId}/rating:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the average rating and total reviews for a product
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product rating response
+          schema:
+            $ref: '#/definitions/genproto.ProductRatingRes'
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "404":
+          description: Product not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get Product Rating
+      tags:
+      - Review
+  /v1/user:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user with the specified ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete user
+      tags:
+      - Users
+  /v1/user/passwords:
+    put:
+      consumes:
+      - application/json
+      description: Update the password of a user with the specified ID
+      parameters:
+      - description: Updated password details
+        in: body
+        name: password
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.ChangePasswordReqBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password updated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Change user password
+      tags:
+      - Users
+  /v1/user/profiles:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the profile of a user with the specified ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.UserRes'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get user profile
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Update the profile of a user with the specified ID
+      parameters:
+      - description: Updated profile details
+        in: body
+        name: profile
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.EditProfileReqBpdy'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profile updated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Edit user profile
+      tags:
+      - Users
+  /v1/user/setting:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the settings of a user with the specified ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.Setting'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get user settings
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Update the settings of a user with the specified ID
+      parameters:
+      - description: Updated setting details
+        in: body
+        name: setting
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.Setting'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Setting updated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Edit user settings
+      tags:
+      - Users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

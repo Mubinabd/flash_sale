@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+option go_package = "internal/pkg/genproto";
+
+package proto;
+
+import "flash_sale_submodule/common.proto";
+
+service FlashSaleService {
+    rpc CreateFlashSale(CreateFlashSalesReq) returns (Void);
+    rpc UpdateFlashSale(UpdateFlashSalesReq) returns (Void);
+    rpc ListAllFlashSales(ListAllFlashSalesReq) returns (ListAllFlashSalesRes);
+    rpc GetFlashSale(GetById) returns (FlashSale);
+    rpc DeleteFlashSale(GetById) returns (Void);
+
+    rpc AddProductToFlashSale(AddProductReq) returns (Void); 
+    rpc RemoveProductFromFlashSale(RemoveProductReq) returns (Void); 
+    rpc CancelFlashSale(GetById) returns (CancelFlashSaleRes); 
+
+    rpc GetNearbyFlashSales(GetNearbyFlashSalesReq) returns (NearbyFlashSalesRes);
+    rpc GetStoreLocation(GetStoreLocationReq) returns (StoreLocation);
+}
+
+message CreateFlashSalesReq {
+    string name = 1;
+    string start_time = 2;
+    string end_time = 3;
+    string status = 4;
+    string productID = 5;
+}
+
+message UpdateFlashSalesReq {
+    string id = 1;
+    UpdateFlashSale body = 2;
+}
+
+message UpdateFlashSale {
+    string name = 1;
+    string start_time = 2;
+    string end_time = 3;
+    string status = 4;
+    repeated Product products = 5; 
+}
+
+message FlashSale {
+    string id = 1;
+    string name = 2;
+    string start_time = 3;
+    string end_time = 4;
+    string status = 5;
+    string created_at = 6;
+    repeated Product products = 7; 
+}
+
+message AddProductReq {
+    string flash_sale_id = 1;
+    Product product = 2;
+}
+
+message RemoveProductReq {
+    string flash_sale_id = 1;
+    string product_id = 2;
+}
+
+message CancelFlashSaleRes {
+    string cancellation_status = 1;
+    repeated Refund refund_info = 2; 
+}
+
+message ListAllFlashSalesReq {
+    Pagination Filter = 1;
+    string name = 2;
+    string status = 3;
+}
+
+message ListAllFlashSalesRes {
+    repeated FlashSale flash_sales = 1;
+    int64 total_count = 2;
+    int32 limit = 3;
+    int32 offset = 4;
+}
+
+
+message Product {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string image_url = 4;
+    float price = 5;
+    int32 quantity_available = 6;
+}
+
+
+message Refund {
+    string user_id = 1;
+    string order_id = 2;
+    float amount = 3;
+    string refund_status = 4;
+}
+
+message GetNearbyFlashSalesReq {
+    double latitude = 1;  
+    double longitude = 2; 
+    double radius = 3;    
+}
+
+message FlashSaleWithLocation {
+    string flash_sale_id = 1;
+    string name = 2;
+    string description = 3;
+    double latitude = 4;   
+    double longitude = 5;  
+    string address = 6;    
+}
+
+message NearbyFlashSalesRes {
+    repeated FlashSaleWithLocation flash_sales = 1; 
+    int64 total_count = 2;                          
+}
+
+message GetStoreLocationReq {
+    string store_id = 1;   
+}
+
+message StoreLocation {
+    string store_id = 1;   
+    string name = 2;       
+    string address = 3;    
+    double latitude = 4;   
+    double longitude = 5;  
+}

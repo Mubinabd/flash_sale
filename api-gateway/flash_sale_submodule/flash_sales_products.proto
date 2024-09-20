@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+option go_package = "internal/pkg/genproto";
+
+package proto;
+import "flash_sale_submodule/products.proto";
+import "flash_sale_submodule/flash_sales.proto";
+import "flash_sale_submodule/common.proto";
+
+service FlashSaleProductService{
+    rpc CreateFlashSaleProduct(CreateFlashSaleProductReq) returns (Void);
+    rpc UpdateFlashSaleProduct(UpdateFlashSaleProductReq) returns (Void);
+    rpc ListAllFlashSaleProducts(ListAllFlashSaleProductsReq) returns (ListAllFlashSaleProductsRes);
+    rpc GetFlashSaleProduct(GetById) returns (FlashSaleProduct);
+    rpc DeleteFlashSaleProduct(GetById) returns (Void);
+}
+
+message CreateFlashSaleProductReq {
+    string flashSaleId = 1;
+    string productId = 2;
+    float discounted_price = 3;
+    int32 available_quantity = 4;
+}
+
+message UpdateFlashSaleProductReq {
+    string id = 1;
+    UpdateFlashSaleProduct body = 2;
+}
+message UpdateFlashSaleProduct{
+    string flashSaleId = 1;
+    string productId = 2;
+    float discounted_price = 3;
+    int32 available_quantity = 4;
+}
+
+message FlashSaleProduct{
+    string id = 1;
+    FlashSale flashSale = 2;
+    Products product = 3;
+    float discounted_price = 4;
+    int32 available_quantity = 5;
+    string created_at = 6;
+    string updated_at = 7;
+    string deleted_at = 8;
+}
+
+message ListAllFlashSaleProductsReq{
+    Pagination Filter = 1;
+    float discounted_price = 2;
+}
+message ListAllFlashSaleProductsRes{
+    repeated FlashSaleProduct flash_sale_products = 1;
+    int64 total_count = 2;
+    int32 limit = 3;
+    int32 offset = 4;
+}

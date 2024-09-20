@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option go_package = "internal/pkg/genproto";
+
+package proto;
+
+import "flash_sale_submodule/common.proto";
+
+service NotificationService {
+    rpc CreateNotification(NotificationCreate) returns (Void);
+    rpc DeleteNotification(GetById) returns (Void);
+    rpc UpdateNotification(NotificationUpdate) returns (Void);
+    rpc GetNotifications(NotifFilter) returns (NotificationList);
+    rpc GetNotification(GetById) returns (NotificationGet);
+}
+message NotificationCreate {
+    string userId = 1;
+    string type = 2;
+    string content = 3;
+    string status = 4;
+}
+message NotificationUpt {
+    string Content = 1;
+    string Status = 2;
+}
+message NotificationUpdate {
+    string NotificationId = 1;
+    NotificationUpt Body = 2;
+}
+
+message NotificationGet {
+    string Id = 1;
+    string UserId = 2;
+    string Type = 3;
+    string Status = 4;
+    string Content = 5;
+    string CreatedAt = 6;
+}
+
+message NotifFilter {
+    string UserId = 1;
+    string Status = 2;
+    string Content = 3;
+    Pagination Filter = 4;
+}
+
+message NotificationList {
+    repeated NotificationGet Notifications = 1;
+    int64 TotalCount = 2;
+    int32 Limit = 3;
+    int32 Offset = 4;
+}
