@@ -30,11 +30,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
+      - name: Change directory to flash_service
+        run: cd flash_service
+
       - name: Install dependencies
-        run: go mod tidy
+        run: |
+          cd flash_service
+          go mod tidy
 
       - name: Build
-        run: go build -o bin/main cmd/main.go
+        run: |
+          cd flash_service
+          go build -o bin/main cmd/main.go
 
   test:
     runs-on: ubuntu-latest
@@ -59,7 +66,9 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Run tests
-        run: go test ./...
+        run: |
+          cd flash_service
+          go test ./...
 
   deploy:
     runs-on: ubuntu-latest
@@ -74,7 +83,9 @@ jobs:
           go-version: '1.22.5'
 
       - name: Build for deployment
-        run: go build -o bin/main cmd/main.go
+        run: |
+          cd flash_service
+          go build -o bin/main cmd/main.go
 
       - name: Deploy
         run: |
